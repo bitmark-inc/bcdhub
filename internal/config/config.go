@@ -80,9 +80,11 @@ type ServiceConfig struct {
 
 // StorageConfig -
 type StorageConfig struct {
-	Postgres string   `yaml:"pg"`
-	Elastic  []string `yaml:"elastic"`
-	Timeout  int      `yaml:"timeout"`
+	Postgres   string   `yaml:"pg"`
+	Elastic    []string `yaml:"elastic"`
+	ESUsername string   `yaml:"es_username"`
+	ESPasswrod string   `yaml:"es_password"`
+	Timeout    int      `yaml:"timeout"`
 }
 
 // DatabaseConfig -

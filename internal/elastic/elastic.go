@@ -24,7 +24,7 @@ type Elastic struct {
 }
 
 // New -
-func New(addresses []string) (*Elastic, error) {
+func New(addresses []string, username, password string) (*Elastic, error) {
 	retryBackoff := backoff.NewExponentialBackOff()
 	elasticConfig := elasticsearch.Config{
 		Addresses:     addresses,
@@ -37,6 +37,12 @@ func New(addresses []string) (*Elastic, error) {
 		},
 		MaxRetries: 5,
 	}
+
+	if username != "" && password != "" {
+		elasticConfig.Username = username
+		elasticConfig.Password = password
+	}
+
 	es, err := elasticsearch.NewClient(elasticConfig)
 	if err != nil {
 		return nil, err
@@ -47,12 +53,12 @@ func New(addresses []string) (*Elastic, error) {
 }
 
 // WaitNew -
-func WaitNew(addresses []string, timeout int) *Elastic {
+func WaitNew(addresses []string, username, password string, timeout int) *Elastic {
 	var es *Elastic
 	var err error
 
 	for es == nil {
-		es, err = New(addresses)
+		es, err = New(addresses, username, password)
 		if err != nil {
 			logger.Warning().Msgf("Waiting elastic up %d seconds...", timeout)
 			time.Sleep(time.Second * time.Duration(timeout))

@@ -27,15 +27,16 @@ services:
 #  florencenet:
 #    mempool: https://mempool.staging.dipdup.net/v1/graphql
 #  hangzhounet:
-#    mempool: https://mempool.staging.dipdup.net/v1/graphql 
+#    mempool: https://mempool.staging.dipdup.net/v1/graphql
   hangzhou2net:
-    mempool: https://mempool.staging.dipdup.net/v1/graphql 
+    mempool: https://mempool.staging.dipdup.net/v1/graphql
 
 storage:
   pg: "host=${DB_HOSTNAME:-db} port=5432 user=${POSTGRES_USER} dbname=indexer password=${POSTGRES_PASSWORD} sslmode=disable"
   elastic:
-    - http://${ELASTIC_HOSTNAME:-elastic}:9200
-    - http://${ELASTIC_HOSTNAME:-elastic}:9200
+    - ${ELASTIC_URI:-http://elastic:9200}
+  es_username: ${ELASTIC_USERNAME:-admin}
+  es_password: ${ELASTIC_PASSWORD:-admin}
   timeout: 10
 
 sentry:
@@ -50,8 +51,8 @@ base_url: https://better-call.dev
 
 ipfs:
   - ${SANDBOX_IPFS_GATEWAY:-https://ipfs.baking-bad.org}
-#  - https://dweb.link
-#  - https://ipfs.io
+  - https://cloudflare-ipfs.com
+  - https://ipfs.io
 
 domains:
    edo2net: KT1KP2Yy6MNkYKkHqroGBZ7KFN5NdNfnUHHv
@@ -94,7 +95,7 @@ indexer:
   #  florencenet:
   #  granadanet:
   #  hangzhounet:
-    hangzhou2net:
+  #  hangzhou2net:
   connections:
     max: 5
     idle: 5
